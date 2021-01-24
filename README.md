@@ -2,7 +2,7 @@
 
 Published under the MIT licence.
 
-This repository provides tools for handling errors.
+This repository provides Golang tools for handling errors.
 
 See the documentation by reference above for information about packages.
 
