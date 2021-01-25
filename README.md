@@ -1,18 +1,16 @@
-# KError [![GoDoc](https://godoc.org/github.com/go-kata/kerror?status.svg)](https://godoc.org/github.com/go-kata/kerror)
+# KError
 
-Published under the MIT licence.
-
-This repository provides Golang tools for handling errors.
-
-See the documentation by reference above for information about packages.
+[![Go Reference](https://pkg.go.dev/badge/github.com/go-kata/kerror.svg)](https://pkg.go.dev/github.com/go-kata/kerror)
 
 ## Installation
 
 `go get github.com/go-kata/kerror`
 
-## Versioning convention
+## Status
 
 **This is a beta version.** API is not stabilized for now.
+
+## Versioning
 
 *Till the first major release* minor version (`v0.x.0`) must be treated as a major version and patch version (`v0.0.x`) must be treated as a minor version.
 
