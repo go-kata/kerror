@@ -2,7 +2,7 @@ package kerror
 
 import "testing"
 
-func testNewMultiError(t *testing.T) (errors []error, errs MultiError) {
+func newTestMultiError(t *testing.T) (errors []error, errs MultiError) {
 	errors = []error{
 		New(ECustom+1, "test error 1"),
 		New(ECustom+2, "test error 2"),
@@ -28,7 +28,7 @@ func TestMultiErrorWithNil(t *testing.T) {
 }
 
 func TestTraverse(t *testing.T) {
-	errors, errs := testNewMultiError(t)
+	errors, errs := newTestMultiError(t)
 	i := 0
 	Traverse(errs, func(err error) (next bool) {
 		t.Logf("\n%+v\n", err)
@@ -46,7 +46,7 @@ func TestTraverse(t *testing.T) {
 }
 
 func TestTraverseBreak(t *testing.T) {
-	errors, errs := testNewMultiError(t)
+	errors, errs := newTestMultiError(t)
 	i := 0
 	Traverse(errs, func(err error) (next bool) {
 		t.Logf("\n%+v\n", err)
