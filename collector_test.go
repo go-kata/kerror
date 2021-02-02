@@ -2,7 +2,7 @@ package kerror
 
 import "testing"
 
-func TestEmptyCollector(t *testing.T) {
+func TestCollectorWithNoErrors(t *testing.T) {
 	coerr := NewCollector()
 	if coerr.Error() != nil {
 		t.Fail()

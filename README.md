@@ -1,6 +1,7 @@
 # KError
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/go-kata/kerror.svg)](https://pkg.go.dev/github.com/go-kata/kerror)
+[![codecov](https://codecov.io/gh/go-kata/kerror/branch/master/graph/badge.svg?token=IOJ93D4DDO)](https://codecov.io/gh/go-kata/kerror)
 
 ## Installation
 

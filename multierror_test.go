@@ -45,7 +45,7 @@ func TestTraverse(t *testing.T) {
 	}
 }
 
-func TestTraverseBreak(t *testing.T) {
+func TestTraverseWithBreak(t *testing.T) {
 	errors, errs := newTestMultiError(t)
 	i := 0
 	Traverse(errs, func(err error) (next bool) {

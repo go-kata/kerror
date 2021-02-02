@@ -19,14 +19,14 @@ func newThreeTestErrors(t *testing.T) (err1, err2, err3 error) {
 	return
 }
 
-func TestClassOfNilError(t *testing.T) {
+func TestClassOfWithNilError(t *testing.T) {
 	if ClassOf(nil) != nil {
 		t.Fail()
 		return
 	}
 }
 
-func TestClassOfNativeError(t *testing.T) {
+func TestClassOfWithNativeError(t *testing.T) {
 	err := newTestNativeError(t)
 	if ClassOf(err) != nil {
 		t.Fail()
@@ -34,7 +34,7 @@ func TestClassOfNativeError(t *testing.T) {
 	}
 }
 
-func TestClassOfPackageError(t *testing.T) {
+func TestClassOfWithPackageError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
 	if ClassOf(err3) != ECustom+3 {
 		t.Fail()
@@ -42,14 +42,14 @@ func TestClassOfPackageError(t *testing.T) {
 	}
 }
 
-func TestMessageOfNilError(t *testing.T) {
+func TestMessageOfWithNilError(t *testing.T) {
 	if MessageOf(nil) != "" {
 		t.Fail()
 		return
 	}
 }
 
-func TestMessageOfNativeError(t *testing.T) {
+func TestMessageOfWithNativeError(t *testing.T) {
 	err := newTestNativeError(t)
 	if MessageOf(err) != "test error" {
 		t.Fail()
@@ -57,7 +57,7 @@ func TestMessageOfNativeError(t *testing.T) {
 	}
 }
 
-func TestMessageOfPackageError(t *testing.T) {
+func TestMessageOfWithPackageError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
 	if MessageOf(err3) != "test error 3" {
 		t.Fail()
@@ -73,14 +73,14 @@ func TestIs(t *testing.T) {
 	}
 }
 
-func TestBaseOfNilError(t *testing.T) {
+func TestBaseOfWithNilError(t *testing.T) {
 	if Base(nil) != nil {
 		t.Fail()
 		return
 	}
 }
 
-func TestBaseOfNativeError(t *testing.T) {
+func TestBaseOfWithNativeError(t *testing.T) {
 	err := newTestNativeError(t)
 	if Base(err) != err {
 		t.Fail()
@@ -88,7 +88,7 @@ func TestBaseOfNativeError(t *testing.T) {
 	}
 }
 
-func TestBaseOfPackageError(t *testing.T) {
+func TestBaseOfWithPackageError(t *testing.T) {
 	e1, _, e3 := newThreeTestErrors(t)
 	if Base(e3) != e1 {
 		t.Fail()
