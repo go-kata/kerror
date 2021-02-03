@@ -65,14 +65,6 @@ func TestMessageOfWithPackageError(t *testing.T) {
 	}
 }
 
-func TestIs(t *testing.T) {
-	_, _, err3 := newThreeTestErrors(t)
-	if Is(nil, nil) || Is(nil, ECustom+3) || Is(err3, nil) || !Is(err3, ECustom+3) || !Is(err3, ECustom+2) {
-		t.Fail()
-		return
-	}
-}
-
 func TestBaseOfWithNilError(t *testing.T) {
 	if Base(nil) != nil {
 		t.Fail()
@@ -91,6 +83,56 @@ func TestBaseOfWithNativeError(t *testing.T) {
 func TestBaseOfWithPackageError(t *testing.T) {
 	e1, _, e3 := newThreeTestErrors(t)
 	if Base(e3) != e1 {
+		t.Fail()
+		return
+	}
+}
+
+func TestIsWithNilError(t *testing.T) {
+	if Is(nil, ECustom) {
+		t.Fail()
+		return
+	}
+}
+
+func TestIsWithNilClass(t *testing.T) {
+	if Is(New(ECustom, "test error"), nil) {
+		t.Fail()
+		return
+	}
+}
+
+func TestIsWithWrappedError(t *testing.T) {
+	_, _, err3 := newThreeTestErrors(t)
+	if !Is(err3, ECustom+3) || !Is(err3, ECustom+2) {
+		t.Fail()
+		return
+	}
+}
+
+func TestIsWithMultiError(t *testing.T) {
+	errs := MultiError{
+		New(ECustom+1, "test error 1"),
+		New(ECustom+2, "test error 2"),
+	}
+	if !Is(errs, ECustom+1) || !Is(errs, ECustom+2) {
+		t.Fail()
+		return
+	}
+}
+
+func TestCollect(t *testing.T) {
+	err1 := New(ECustom+1, "test error 1")
+	err2 := New(ECustom+2, "test error 2")
+	err3 := New(ECustom+3, "test error 3")
+	err := Collect(err1, err2, err3)
+	t.Logf("\n%+v\n", err)
+	errs, ok := err.(MultiError)
+	if !ok {
+		t.Fail()
+		return
+	}
+	if len(errs) != 3 || errs[0] != err1 || errs[1] != err2 || errs[2] != err3 {
 		t.Fail()
 		return
 	}

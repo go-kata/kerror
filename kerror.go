@@ -60,3 +60,10 @@ func Is(err error, class Class) bool {
 	}
 	return false
 }
+
+// Collect passes given errors through a collector.
+func Collect(errors ...error) error {
+	coerr := NewCollector()
+	coerr.Collect(errors...)
+	return coerr.Error()
+}
