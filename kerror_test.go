@@ -121,6 +121,23 @@ func TestIsWithMultiError(t *testing.T) {
 	}
 }
 
+func TestJoin(t *testing.T) {
+	err1 := New(ECustom+1, "test error 1")
+	err2 := New(ECustom+2, "test error 2")
+	err3 := New(ECustom+3, "test error 3")
+	err := Join(err1, err2, err3)
+	t.Logf("\n%+v\n", err)
+	errs, ok := err.(MultiError)
+	if !ok {
+		t.Fail()
+		return
+	}
+	if len(errs) != 3 || errs[0] != err1 || errs[1] != err2 || errs[2] != err3 {
+		t.Fail()
+		return
+	}
+}
+
 func TestCollect(t *testing.T) {
 	err1 := New(ECustom+1, "test error 1")
 	err2 := New(ECustom+2, "test error 2")

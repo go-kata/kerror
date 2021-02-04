@@ -13,7 +13,7 @@ func NewCollector() *Collector {
 	return &Collector{}
 }
 
-// Collect collects given errors skipping nils and unfolding lists.
+// Collect collects given errors skipping nils and unfolding multiple errors.
 func (c *Collector) Collect(errors ...error) {
 	if c == nil {
 		NPE()
@@ -32,8 +32,8 @@ func (c *Collector) Collect(errors ...error) {
 	return
 }
 
-// Error returns nil if no errors was collected, a single error
-// if only was collected or a collected errors list.
+// Error returns nil if no errors was collected, a single error if only one was collected
+// or a multiple error which represents all collected errors.
 func (c *Collector) Error() error {
 	if c == nil || len(c.errors) == 0 {
 		return nil

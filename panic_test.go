@@ -2,6 +2,27 @@ package kerror
 
 import "testing"
 
+func TestNPE(t *testing.T) {
+	defer func() {
+		v := recover()
+		t.Logf("\n%+v\n", v)
+		if v == nil {
+			t.Fail()
+			return
+		}
+		err, ok := v.(error)
+		if !ok {
+			t.Fail()
+			return
+		}
+		if ClassOf(err) != EPanic || MessageOf(err) != "nil pointer dereference" {
+			t.Fail()
+			return
+		}
+	}()
+	NPE()
+}
+
 func TestPanic(t *testing.T) {
 	const message = "keep calm, this is a test panic"
 	defer func() {
