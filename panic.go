@@ -2,9 +2,16 @@ package kerror
 
 import "fmt"
 
-// NPE triggers a null pointer exception (panic) with a stack trace.
+// NPE triggers the nil pointer exception (panic) with a stack trace.
+//
+// Deprecated: since 0.2.1, use Nil instead.
 func NPE() {
 	panic(newErrorWithTrace(2, EPanic, "nil pointer dereference", nil))
+}
+
+// Nil triggers a panic by reason of the nil pointer dereference.
+func Nil() {
+	panic(newErrorWithTrace(2, ENil, "nil pointer dereference", nil))
 }
 
 // Panic triggers a panic with a stack trace and the given message.
@@ -29,6 +36,20 @@ func PanicWrapf(err error, format string, a ...interface{}) {
 	panic(wrapError(2, err, EPanic, fmt.Sprintf(format, a...)))
 }
 
+// Recovered casts the given untyped result of the panic recovering to error.
+// If the argument v is nil then nil will be returned. Otherwise error will be
+// returned (is v doesn't implement the error interface it will be transformed
+// to the native error).
+func Recovered(v interface{}) error {
+	if v == nil {
+		return nil
+	}
+	if err, ok := v.(error); ok {
+		return err
+	}
+	return fmt.Errorf("%+v", v)
+}
+
 // Try calls f, recovers a panic if occurred and returns it as error.
 func Try(f func() error) (err error) {
 	defer Catch(&err)
@@ -46,7 +67,7 @@ func Catch(err *error) {
 		if e, ok := v.(error); ok {
 			coerr.Collect(e)
 		} else {
-			coerr.Collect(newErrorWithTrace(3, EPanic, fmt.Sprintf("%v", v), nil))
+			coerr.Collect(fmt.Errorf("%+v", v))
 		}
 		*err = coerr.Error()
 	}

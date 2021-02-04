@@ -27,6 +27,9 @@ func (n Number) ErrorClass() string {
 // EPanic specifies the panic number.
 const EPanic Number = 0
 
+// ENil specifies the error number indicating the nil pointer dereference.
+const ENil Number = 0xFFFFFFFF
+
 // ERuntime specifies the error number indicating a runtime error.
 //
 // Usually errors of this class are returned on a contract violation. Since Go is a statically typed language,

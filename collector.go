@@ -16,7 +16,7 @@ func NewCollector() *Collector {
 // Collect collects given errors skipping nils and unfolding multiple errors.
 func (c *Collector) Collect(errors ...error) {
 	if c == nil {
-		NPE()
+		Nil()
 		return
 	}
 	for _, err := range errors {

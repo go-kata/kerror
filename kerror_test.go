@@ -7,7 +7,7 @@ import (
 
 func newTestNativeError(t *testing.T) error {
 	err := fmt.Errorf("test error")
-	t.Logf("\n%+v\n", err)
+	t.Logf("%+v", err)
 	return err
 }
 
@@ -15,7 +15,7 @@ func newThreeTestErrors(t *testing.T) (err1, err2, err3 error) {
 	err1 = fmt.Errorf("test error 1")
 	err2 = Wrap(err1, ECustom+2, "test error 2")
 	err3 = Wrap(err2, ECustom+3, "test error 3")
-	t.Logf("\n%+v\n", err3)
+	t.Logf("%+v", err3)
 	return
 }
 
@@ -126,24 +126,7 @@ func TestJoin(t *testing.T) {
 	err2 := New(ECustom+2, "test error 2")
 	err3 := New(ECustom+3, "test error 3")
 	err := Join(err1, err2, err3)
-	t.Logf("\n%+v\n", err)
-	errs, ok := err.(MultiError)
-	if !ok {
-		t.Fail()
-		return
-	}
-	if len(errs) != 3 || errs[0] != err1 || errs[1] != err2 || errs[2] != err3 {
-		t.Fail()
-		return
-	}
-}
-
-func TestCollect(t *testing.T) {
-	err1 := New(ECustom+1, "test error 1")
-	err2 := New(ECustom+2, "test error 2")
-	err3 := New(ECustom+3, "test error 3")
-	err := Collect(err1, err2, err3)
-	t.Logf("\n%+v\n", err)
+	t.Logf("%+v", err)
 	errs, ok := err.(MultiError)
 	if !ok {
 		t.Fail()

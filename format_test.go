@@ -21,5 +21,5 @@ func TestFormat(t *testing.T) {
 	}
 	err2 := Wrap(err1, ECustom+9, "test error 9")
 	err3 := Wrap(err2, ECustom+10, "test error 10")
-	t.Logf("\n%+v\n", err3)
+	t.Logf("\n%+v", err3)
 }
