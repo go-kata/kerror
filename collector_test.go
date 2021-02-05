@@ -2,7 +2,7 @@ package kerror
 
 import "testing"
 
-func TestCollectorWithNoErrors(t *testing.T) {
+func TestCollector__Empty(t *testing.T) {
 	coerr := NewCollector()
 	if coerr.Error() != nil {
 		t.Fail()
@@ -10,7 +10,7 @@ func TestCollectorWithNoErrors(t *testing.T) {
 	}
 }
 
-func TestCollectorWithSingleError(t *testing.T) {
+func TestCollector__SingleError(t *testing.T) {
 	err1 := New(ECustom, "test error")
 	coerr := NewCollector()
 	coerr.Collect(err1)
@@ -22,7 +22,7 @@ func TestCollectorWithSingleError(t *testing.T) {
 	}
 }
 
-func TestCollectorWithLists(t *testing.T) {
+func TestCollector__MultipleErrors(t *testing.T) {
 	err1 := New(ECustom+1, "test error 1")
 	err2 := New(ECustom+2, "test error 2")
 	err3 := New(ECustom+3, "test error 3")

@@ -2,7 +2,7 @@ package kerror
 
 import "testing"
 
-func TestWrapWithNilError(t *testing.T) {
+func TestWrap__NilError(t *testing.T) {
 	defer func() {
 		v := recover()
 		t.Logf("%+v", v)

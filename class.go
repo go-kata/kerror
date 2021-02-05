@@ -27,33 +27,31 @@ func (n Number) ErrorClass() string {
 // EPanic specifies the panic number.
 const EPanic Number = 0
 
-// ENil specifies the error number indicating the nil pointer dereference.
-const ENil Number = 0xFFFFFFFF
+// ENil specifies the error number indicating an unacceptable operation on nil.
+const ENil Number = 1
 
-// ERuntime specifies the error number indicating a runtime error.
-//
-// Usually errors of this class are returned on a contract violation. Since Go is a statically typed language,
-// the vast majority of such errors are detected at compile time. However, there are still no generics,
-// type unions, compile time contracts and so on in Go and we need to use empty interfaces and reflection
-// in some cases which errors of this class are well suited for.
-const ERuntime Number = 1
+// EViolation specifies the error number indicating a contract violation
+// which may not be detected at the compile time for some reason.
+const EViolation Number = 2
+
+// ERuntime specifies the error number indicating an unspecific runtime error.
+const ERuntime Number = 100
 
 // EInvalid specifies the error number indicating an invalid value.
-const EInvalid Number = 2
+const EInvalid Number = 101
 
 // EIllegal specifies the error number indicating value or operation that are illegal in the current context.
 //
 // For example, error of this class may be returned from the Close method when it called again.
-const EIllegal Number = 3
+const EIllegal Number = 102
 
-// ENotFound specifies the error number indicating that a required element is not found.
-const ENotFound Number = 4
+// ENotFound specifies the error number indicating that a required entity is not found.
+const ENotFound Number = 103
 
-// EAmbiguous specifies the error number indicating an ambiguous element.
+// EAmbiguous specifies the error number indicating an ambiguous entity.
 //
-// For example, error of this class may be returned on a try to add an element to an unique list
-// that already contain the same element.
-const EAmbiguous Number = 5
+// For example, error of this class may be returned on a try to overwrite existing map key.
+const EAmbiguous Number = 104
 
 // ECustom specifies the base custom error number (65536).
 //

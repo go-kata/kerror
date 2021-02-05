@@ -16,9 +16,17 @@ func newTestMultiError(t *testing.T) (errors []error, errs MultiError) {
 	return
 }
 
-func TestMultiErrorWithNil(t *testing.T) {
+func TestMultiError__Nil(t *testing.T) {
 	errs := MultiError{New(ECustom, "test error"), nil}
 	t.Logf("%+v", errs)
+}
+
+func TestNilMultiError_Error(t *testing.T) {
+	if s := (MultiError)(nil).Error(); s != "" {
+		t.Logf("%s", s)
+		t.Fail()
+		return
+	}
 }
 
 func TestTraverse(t *testing.T) {
@@ -39,7 +47,7 @@ func TestTraverse(t *testing.T) {
 	}
 }
 
-func TestTraverseWithBreak(t *testing.T) {
+func TestTraverse__Break(t *testing.T) {
 	errors, errs := newTestMultiError(t)
 	i := 0
 	Traverse(errs, func(err error) (next bool) {
@@ -52,14 +60,6 @@ func TestTraverseWithBreak(t *testing.T) {
 		return i < 4
 	})
 	if i != 4 {
-		t.Fail()
-		return
-	}
-}
-
-func TestNilMultiError_Error(t *testing.T) {
-	if s := (MultiError)(nil).Error(); s != "" {
-		t.Logf("%s", s)
 		t.Fail()
 		return
 	}

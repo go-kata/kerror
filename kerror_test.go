@@ -26,7 +26,7 @@ func TestClassOfWithNilError(t *testing.T) {
 	}
 }
 
-func TestClassOfWithNativeError(t *testing.T) {
+func TestClassOf__NativeError(t *testing.T) {
 	err := newTestNativeError(t)
 	if ClassOf(err) != nil {
 		t.Fail()
@@ -34,7 +34,7 @@ func TestClassOfWithNativeError(t *testing.T) {
 	}
 }
 
-func TestClassOfWithPackageError(t *testing.T) {
+func TestClassOf__PackageError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
 	if ClassOf(err3) != ECustom+3 {
 		t.Fail()
@@ -42,14 +42,14 @@ func TestClassOfWithPackageError(t *testing.T) {
 	}
 }
 
-func TestMessageOfWithNilError(t *testing.T) {
+func TestMessageOf__NilError(t *testing.T) {
 	if MessageOf(nil) != "" {
 		t.Fail()
 		return
 	}
 }
 
-func TestMessageOfWithNativeError(t *testing.T) {
+func TestMessageOf__NativeError(t *testing.T) {
 	err := newTestNativeError(t)
 	if MessageOf(err) != "test error" {
 		t.Fail()
@@ -57,7 +57,7 @@ func TestMessageOfWithNativeError(t *testing.T) {
 	}
 }
 
-func TestMessageOfWithPackageError(t *testing.T) {
+func TestMessageOf__PackageError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
 	if MessageOf(err3) != "test error 3" {
 		t.Fail()
@@ -65,14 +65,14 @@ func TestMessageOfWithPackageError(t *testing.T) {
 	}
 }
 
-func TestBaseOfWithNilError(t *testing.T) {
+func TestBaseOf__NilError(t *testing.T) {
 	if Base(nil) != nil {
 		t.Fail()
 		return
 	}
 }
 
-func TestBaseOfWithNativeError(t *testing.T) {
+func TestBaseOf__NativeError(t *testing.T) {
 	err := newTestNativeError(t)
 	if Base(err) != err {
 		t.Fail()
@@ -80,7 +80,7 @@ func TestBaseOfWithNativeError(t *testing.T) {
 	}
 }
 
-func TestBaseOfWithPackageError(t *testing.T) {
+func TestBaseOf__PackageError(t *testing.T) {
 	e1, _, e3 := newThreeTestErrors(t)
 	if Base(e3) != e1 {
 		t.Fail()
@@ -88,21 +88,21 @@ func TestBaseOfWithPackageError(t *testing.T) {
 	}
 }
 
-func TestIsWithNilError(t *testing.T) {
+func TestIs__NilError(t *testing.T) {
 	if Is(nil, ECustom) {
 		t.Fail()
 		return
 	}
 }
 
-func TestIsWithNilClass(t *testing.T) {
+func TestIs__NilClass(t *testing.T) {
 	if Is(New(ECustom, "test error"), nil) {
 		t.Fail()
 		return
 	}
 }
 
-func TestIsWithWrappedError(t *testing.T) {
+func TestIs__WrappedError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
 	if !Is(err3, ECustom+3) || !Is(err3, ECustom+2) {
 		t.Fail()
@@ -110,7 +110,7 @@ func TestIsWithWrappedError(t *testing.T) {
 	}
 }
 
-func TestIsWithMultiError(t *testing.T) {
+func TestIs__MultiError(t *testing.T) {
 	errs := MultiError{
 		New(ECustom+1, "test error 1"),
 		New(ECustom+2, "test error 2"),

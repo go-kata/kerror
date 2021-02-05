@@ -77,7 +77,7 @@ func Newf(class Class, format string, a ...interface{}) *Error {
 
 // Wrap is like the New but provides an original error that caused this.
 //
-// A stack trace will be provided only if an original error is of an external type.
+// A stack trace will be provided only if an original error is of external type.
 func Wrap(err error, class Class, message string) *Error {
 	return wrapError(2, err, class, message)
 }

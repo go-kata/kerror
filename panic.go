@@ -2,16 +2,9 @@ package kerror
 
 import "fmt"
 
-// NPE triggers the nil pointer exception (panic) with a stack trace.
-//
-// Deprecated: since 0.2.1, use Nil instead.
-func NPE() {
-	panic(newErrorWithTrace(2, EPanic, "nil pointer dereference", nil))
-}
-
-// Nil triggers a panic by reason of the nil pointer dereference.
+// Nil triggers a panic with a stack trace by reason of an unacceptable operation on nil.
 func Nil() {
-	panic(newErrorWithTrace(2, ENil, "nil pointer dereference", nil))
+	panic(newErrorWithTrace(2, ENil, "unacceptable operation on nil", nil))
 }
 
 // Panic triggers a panic with a stack trace and the given message.
@@ -22,18 +15,6 @@ func Panic(message string) {
 // Panicf is a variant of the Panic with message formatting.
 func Panicf(format string, a ...interface{}) {
 	panic(newErrorWithTrace(2, EPanic, fmt.Sprintf(format, a...), nil))
-}
-
-// PanicWrap triggers a panic with providing an original error that caused it.
-//
-// A stack trace will be provided only if an original error is of an external type.
-func PanicWrap(err error, message string) {
-	panic(wrapError(2, err, EPanic, message))
-}
-
-// PanicWrapf is a variant of the PanicWrap with message formatting.
-func PanicWrapf(err error, format string, a ...interface{}) {
-	panic(wrapError(2, err, EPanic, fmt.Sprintf(format, a...)))
 }
 
 // Recovered casts the given untyped result of the panic recovering to error.

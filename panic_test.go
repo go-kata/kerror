@@ -28,7 +28,7 @@ func TestPanic(t *testing.T) {
 	Panic(message)
 }
 
-func TestRecoveredWithNil(t *testing.T) {
+func TestRecovered__Nil(t *testing.T) {
 	defer func() {
 		if Recovered(recover()) != nil {
 			t.Fail()
@@ -37,7 +37,7 @@ func TestRecoveredWithNil(t *testing.T) {
 	}()
 }
 
-func TestRecoveredWithString(t *testing.T) {
+func TestRecovered__String(t *testing.T) {
 	const message = "keep calm, this is a test panic"
 	defer func() {
 		v := recover()
@@ -51,7 +51,7 @@ func TestRecoveredWithString(t *testing.T) {
 	panic(message)
 }
 
-func TestRecoveredWithPackageError(t *testing.T) {
+func TestRecovered__PackageError(t *testing.T) {
 	const class = ECustom
 	const message = "keep calm, this is a test panic"
 	defer func() {
@@ -64,6 +64,45 @@ func TestRecoveredWithPackageError(t *testing.T) {
 		}
 	}()
 	panic(New(class, message))
+}
+
+func TestTry__Error(t *testing.T) {
+	const class = ECustom
+	const message = "test error"
+	err := Try(func() error {
+		return New(class, message)
+	})
+	t.Logf("%+v", err)
+	if err == nil || ClassOf(err) != class || MessageOf(err) != message {
+		t.Fail()
+		return
+	}
+}
+
+func TestTry__NativePanic(t *testing.T) {
+	const message = "keep calm, this is a test panic"
+	err := Try(func() error {
+		panic(message)
+		return nil
+	})
+	t.Logf("%+v", err)
+	if err == nil || ClassOf(err) != nil || MessageOf(err) != message {
+		t.Fail()
+		return
+	}
+}
+
+func TestTry__PackagePanic(t *testing.T) {
+	const message = "keep calm, this is a test panic"
+	err := Try(func() error {
+		Panic(message)
+		return nil
+	})
+	t.Logf("%+v", err)
+	if err == nil || ClassOf(err) != EPanic || MessageOf(err) != message {
+		t.Fail()
+		return
+	}
 }
 
 func TestCatch(t *testing.T) {
@@ -88,7 +127,7 @@ func TestCatch(t *testing.T) {
 	}
 }
 
-func TestCatchWithNil(t *testing.T) {
+func TestCatch__NilTarget(t *testing.T) {
 	defer func() {
 		v := recover()
 		t.Logf("%+v", v)
@@ -102,43 +141,4 @@ func TestCatchWithNil(t *testing.T) {
 		panic("keep calm, this is a test panic")
 		return
 	}()
-}
-
-func TestTryWithError(t *testing.T) {
-	const class = ECustom
-	const message = "test error"
-	err := Try(func() error {
-		return New(class, message)
-	})
-	t.Logf("%+v", err)
-	if err == nil || ClassOf(err) != class || MessageOf(err) != message {
-		t.Fail()
-		return
-	}
-}
-
-func TestTryWithNativePanic(t *testing.T) {
-	const message = "keep calm, this is a test panic"
-	err := Try(func() error {
-		panic(message)
-		return nil
-	})
-	t.Logf("%+v", err)
-	if err == nil || ClassOf(err) != nil || MessageOf(err) != message {
-		t.Fail()
-		return
-	}
-}
-
-func TestTryWithPackagePanic(t *testing.T) {
-	const message = "keep calm, this is a test panic"
-	err := Try(func() error {
-		Panic(message)
-		return nil
-	})
-	t.Logf("%+v", err)
-	if err == nil || ClassOf(err) != EPanic || MessageOf(err) != message {
-		t.Fail()
-		return
-	}
 }
