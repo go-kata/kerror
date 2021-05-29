@@ -52,7 +52,7 @@ func TestRecovered__String(t *testing.T) {
 }
 
 func TestRecovered__PackageError(t *testing.T) {
-	const class = ECustom
+	const class = Label("test.Error")
 	const message = "keep calm, this is a test panic"
 	defer func() {
 		v := recover()
@@ -67,7 +67,7 @@ func TestRecovered__PackageError(t *testing.T) {
 }
 
 func TestTry__Error(t *testing.T) {
-	const class = ECustom
+	const class = Label("test.Error")
 	const message = "test error"
 	err := Try(func() error {
 		return New(class, message)
@@ -106,11 +106,12 @@ func TestTry__PackagePanic(t *testing.T) {
 }
 
 func TestCatch(t *testing.T) {
+	const errorClass = Label("test.Error")
 	const errorMessage = "test error"
 	const panicMessage = "keep calm, this is a test panic"
 	err := func() (err error) {
 		defer Catch(&err)
-		err = New(ECustom, errorMessage)
+		err = New(errorClass, errorMessage)
 		Panic(panicMessage)
 		return
 	}()
@@ -120,7 +121,7 @@ func TestCatch(t *testing.T) {
 		return
 	}
 	if errs, ok := err.(MultiError); !ok || len(errs) != 2 ||
-		ClassOf(errs[0]) != ECustom || MessageOf(errs[0]) != errorMessage ||
+		ClassOf(errs[0]) != errorClass || MessageOf(errs[0]) != errorMessage ||
 		ClassOf(errs[1]) != EPanic || MessageOf(errs[1]) != panicMessage {
 		t.Fail()
 		return

@@ -1,68 +1,57 @@
 package kerror
 
-import "fmt"
-
 // Class represents an error class.
 //
 // Implement this interface in your package to provide guaranteed to be unique error classes.
 type Class interface {
 	// ErrorClass returns a string representation of this class.
 	//
-	// Builtin error classes all have the EXXXXXXXXX format. Come up with your own format
+	// Builtin error classes all have the "common.ClassName" format. Come up with your own format
 	// which will not mislead readers about the class source.
 	ErrorClass() string
 }
 
-// Number represents a numeric error class (error number).
+// Label represents a string error class (error label).
 //
-// Use this type in your package but be sure that your own numbers don't collide
-// with numbers from other packages uses this way of the error class definition.
-type Number uint32
+// Use this type in your package but be sure that your own labels don't collide
+// with labels from other packages uses this way of the error class definition.
+type Label string
 
 // ErrorClass implements the Class interface.
-func (n Number) ErrorClass() string {
-	return fmt.Sprintf("E%09d", n)
+func (l Label) ErrorClass() string {
+	return string(l)
 }
 
-// EPanic specifies the panic number.
-const EPanic Number = 0
-
-// ENil specifies the error number indicating an unacceptable operation on nil.
-const ENil Number = 1
-
-// EViolation specifies the error number indicating a contract violation
-// which may not be detected at the compile time for some reason.
-const EViolation Number = 2
-
-// ERuntime specifies the error number indicating an unspecific runtime error.
-const ERuntime Number = 100
-
-// EInvalid specifies the error number indicating an invalid value.
-const EInvalid Number = 101
-
-// EIllegal specifies the error number indicating value or operation that are illegal in the current context.
-//
-// For example, error of this class may be returned from the Close method when it called again.
-const EIllegal Number = 102
-
-// ENotFound specifies the error number indicating that a required entity is not found.
-const ENotFound Number = 103
-
-// EAmbiguous specifies the error number indicating an ambiguous entity.
+// EAmbiguous specifies the error label indicating an ambiguous entity.
 //
 // For example, error of this class may be returned on a try to overwrite existing map key.
-const EAmbiguous Number = 104
+const EAmbiguous Label = "common.Ambiguous"
 
-// ECustom specifies the base custom error number (65536).
+// EIllegal specifies the error label indicating value or operation that are illegal in the current context.
 //
-// The range 0-65535 is reserved for builtin numbers and for errors in framework components.
+// For example, error of this class may be returned from the Close method when it called again.
+const EIllegal Label = "common.Illegal"
+
+// EInvalid specifies the error label indicating an invalid value.
+const EInvalid Label = "common.Invalid"
+
+// ENil specifies the error label indicating an unacceptable operation on nil.
+const ENil Label = "common.Nil"
+
+// ENotFound specifies the error label indicating that a required entity is not found.
+const ENotFound Label = "common.NotFound"
+
+// EPanic specifies the panic label.
+const EPanic Label = "common.Panic"
+
+// ERuntime specifies the error label indicating an unspecific runtime error.
+const ERuntime Label = "common.Runtime"
+
+// ESystem specifies the error label indicating a system error.
 //
-// Use something like this to define numbers in your package:
-//
-//     const (
-//         EMyFirstError = ECustom + iota
-//         EMySecondError
-//         EMyThirdError
-//     )
-//
-const ECustom Number = 0x00010000
+// For example, error of this class may be used to wrap a file system error.
+const ESystem Label = "common.System"
+
+// EViolation specifies the error label indicating a contract violation
+// which may not be detected at the compile time for some reason.
+const EViolation Label = "common.Violation"

@@ -4,12 +4,12 @@ import "testing"
 
 func newTestMultiError(t *testing.T) (errors []error, errs MultiError) {
 	errors = []error{
-		New(ECustom+1, "test error 1"),
-		New(ECustom+2, "test error 2"),
-		New(ECustom+3, "test error 3"),
-		New(ECustom+4, "test error 4"),
-		New(ECustom+5, "test error 5"),
-		New(ECustom+6, "test error 6"),
+		New(Label("test.Error1"), "test error 1"),
+		New(Label("test.Error2"), "test error 2"),
+		New(Label("test.Error3"), "test error 3"),
+		New(Label("test.Error4"), "test error 4"),
+		New(Label("test.Error5"), "test error 5"),
+		New(Label("test.Error6"), "test error 6"),
 	}
 	errs = MultiError{errors[0], errors[1], MultiError{errors[2], MultiError{nil, errors[3]}, errors[4]}, errors[5]}
 	t.Logf("%+v", errs)
@@ -17,7 +17,7 @@ func newTestMultiError(t *testing.T) (errors []error, errs MultiError) {
 }
 
 func TestMultiError__Nil(t *testing.T) {
-	errs := MultiError{New(ECustom, "test error"), nil}
+	errs := MultiError{New(Label("test.Error"), "test error"), nil}
 	t.Logf("%+v", errs)
 }
 

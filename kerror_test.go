@@ -13,8 +13,8 @@ func newTestNativeError(t *testing.T) error {
 
 func newThreeTestErrors(t *testing.T) (err1, err2, err3 error) {
 	err1 = fmt.Errorf("test error 1")
-	err2 = Wrap(err1, ECustom+2, "test error 2")
-	err3 = Wrap(err2, ECustom+3, "test error 3")
+	err2 = Wrap(err1, Label("test.Error2"), "test error 2")
+	err3 = Wrap(err2, Label("test.Error3"), "test error 3")
 	t.Logf("%+v", err3)
 	return
 }
@@ -36,7 +36,7 @@ func TestClassOf__NativeError(t *testing.T) {
 
 func TestClassOf__PackageError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
-	if ClassOf(err3) != ECustom+3 {
+	if ClassOf(err3) != Label("test.Error3") {
 		t.Fail()
 		return
 	}
@@ -89,14 +89,14 @@ func TestBaseOf__PackageError(t *testing.T) {
 }
 
 func TestIs__NilError(t *testing.T) {
-	if Is(nil, ECustom) {
+	if Is(nil, Label("test.Error")) {
 		t.Fail()
 		return
 	}
 }
 
 func TestIs__NilClass(t *testing.T) {
-	if Is(New(ECustom, "test error"), nil) {
+	if Is(New(Label("test.Error"), "test error"), nil) {
 		t.Fail()
 		return
 	}
@@ -104,7 +104,7 @@ func TestIs__NilClass(t *testing.T) {
 
 func TestIs__WrappedError(t *testing.T) {
 	_, _, err3 := newThreeTestErrors(t)
-	if !Is(err3, ECustom+3) || !Is(err3, ECustom+2) {
+	if !Is(err3, Label("test.Error3")) || !Is(err3, Label("test.Error2")) {
 		t.Fail()
 		return
 	}
@@ -112,19 +112,19 @@ func TestIs__WrappedError(t *testing.T) {
 
 func TestIs__MultiError(t *testing.T) {
 	errs := MultiError{
-		New(ECustom+1, "test error 1"),
-		New(ECustom+2, "test error 2"),
+		New(Label("test.Error1"), "test error 1"),
+		New(Label("test.Error2"), "test error 2"),
 	}
-	if !Is(errs, ECustom+1) || !Is(errs, ECustom+2) {
+	if !Is(errs, Label("test.Error1")) || !Is(errs, Label("test.Error2")) {
 		t.Fail()
 		return
 	}
 }
 
 func TestJoin(t *testing.T) {
-	err1 := New(ECustom+1, "test error 1")
-	err2 := New(ECustom+2, "test error 2")
-	err3 := New(ECustom+3, "test error 3")
+	err1 := New(Label("test.Error1"), "test error 1")
+	err2 := New(Label("test.Error2"), "test error 2")
+	err3 := New(Label("test.Error3"), "test error 3")
 	err := Join(err1, err2, err3)
 	t.Logf("%+v", err)
 	errs, ok := err.(MultiError)

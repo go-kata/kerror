@@ -11,7 +11,7 @@ func TestCollector__Empty(t *testing.T) {
 }
 
 func TestCollector__SingleError(t *testing.T) {
-	err1 := New(ECustom, "test error")
+	err1 := New(Label("test.Error"), "test error")
 	coerr := NewCollector()
 	coerr.Collect(err1)
 	err := coerr.Error()
@@ -23,9 +23,9 @@ func TestCollector__SingleError(t *testing.T) {
 }
 
 func TestCollector__MultipleErrors(t *testing.T) {
-	err1 := New(ECustom+1, "test error 1")
-	err2 := New(ECustom+2, "test error 2")
-	err3 := New(ECustom+3, "test error 3")
+	err1 := New(Label("test.Error1"), "test error 1")
+	err2 := New(Label("test.Error2"), "test error 2")
+	err3 := New(Label("test.Error3"), "test error 3")
 	coerr := NewCollector()
 	coerr.Collect(err1)
 	coerr.Collect(MultiError{err2, nil, err3})
